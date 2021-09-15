@@ -6,7 +6,6 @@ export const collections: { fruits?: mongoDB.Collection, movements?: mongoDB.Col
 
 export async function connecToDatabase() {
     dotenv.config();
-    //dotenv.config({ path: '../../.env'})
 
     const client: mongoDB.MongoClient = new MongoClient(process.env.DB_CONN_STRING);
 

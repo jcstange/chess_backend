@@ -18,6 +18,7 @@ const port = 8080;
     }));
     app.use("/fruits", fruits_router_1.fruitsRouter);
     app.use("/movements", movements_router_1.movementsRouter);
+    app.use("/hook");
     app.listen(port, () => {
         console.log(`Server is running on port ${port}`);
     });
