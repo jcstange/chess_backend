@@ -40,7 +40,9 @@ function connecToDatabase() {
         client.connect();
         const db = client.db(process.env.DB_NAME);
         const fruitsCollection = db.collection(process.env.FRUITS_COLLECTION_NAME);
+        const movementsCollection = db.collection(process.env.MOVEMENTS_COLLECTION_NAME);
         exports.collections.fruits = fruitsCollection;
+        exports.collections.movements = movementsCollection;
         console.log(`Successfully connected to database:  ${db.databaseName} and collection: ${fruitsCollection.collectionName}`);
     });
 }

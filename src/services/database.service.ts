@@ -2,7 +2,7 @@ import * as mongoDB from "mongodb";
 import { MongoClient } from "mongodb";
 import * as dotenv from "dotenv";
 
-export const collections: { fruits?: mongoDB.Collection } = {};
+export const collections: { fruits?: mongoDB.Collection, movements?: mongoDB.Collection} = {};
 
 export async function connecToDatabase() {
     dotenv.config();
@@ -16,7 +16,11 @@ export async function connecToDatabase() {
 
     const fruitsCollection: mongoDB.Collection = db.collection(process.env.FRUITS_COLLECTION_NAME);
 
+    const movementsCollection: mongoDB.Collection = db.collection(process.env.MOVEMENTS_COLLECTION_NAME);
+
     collections.fruits = fruitsCollection;
+
+    collections.movements = movementsCollection
 
     console.log(
         `Successfully connected to database:  ${db.databaseName} and collection: ${fruitsCollection.collectionName}`,
