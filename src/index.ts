@@ -3,7 +3,7 @@ import cors from 'cors'
 import { connecToDatabase } from './services/database.service'
 import { fruitsRouter } from './routes/fruits.router'
 import { movementsRouter } from './routes/movements.router'
-import { hookRouter } from './routes/hook.router'
+import { sseRouter } from './routes/sse.router'
 
 const app = express()
 const port = 8080
@@ -16,7 +16,7 @@ connecToDatabase()
         }))
         app.use("/fruits", fruitsRouter)
         app.use("/movements", movementsRouter)
-        app.use("/hook", hookRouter)
+        app.use("/sse", sseRouter)
 
         app.listen(port, () => {
             console.log(`Server is running on port ${port}`)
