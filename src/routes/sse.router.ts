@@ -6,19 +6,24 @@ import Movement from '../models/movement'
 export const sseRouter = express.Router()
 
 var globalCount = 0
+var innerCount = 0
 
 var movements: Movement[]= []
+
 
 sseRouter.use(express.json())
 
 service.onMovementAdded((movement: Movement) => {
+    console.log('onMovementAdded')
     movements.push(movement)
     globalCount++
 })
 
 service.onBoardReset(() => {
+    console.log('onBoardReset')
     movements = [] 
-    globalCount++
+    globalCount = 0
+    innerCount = 0
 })
 
 sseRouter.get("/", async (req: Request, res: Response) => {
@@ -26,11 +31,11 @@ sseRouter.get("/", async (req: Request, res: Response) => {
     res.set("Connection", "keep-alive")
     res.set("Cache-Control", "no-cache")
     res.set("Access-Control-Allow-Origin", "*")
-    var innerCount = 0
     setInterval(() => {
         if(globalCount > innerCount) {
+            console.log(`globalCount ${globalCount} -> innerCount ${innerCount}`)
             res.status(200).write(`data: ${JSON.stringify(movements)}\n\n`)
-            innerCount++
+            innerCount = globalCount
         }
-    }, 1000)
+    }, 100)
 });

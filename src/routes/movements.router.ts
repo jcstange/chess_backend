@@ -38,6 +38,7 @@ movementsRouter.post("/", async (req: Request, res: Response) => {
 
         if(result){
             res.status(201).send(`Successfully created new movement from:${newMovement.from} to: ${newMovement.to}`)
+            console.log(`Successfully created new movement from:${newMovement.from} to: ${newMovement.to}`)
             service.newMovement(newMovement)
         } else res.status(200).send('Failed to create new movement')
    } catch (error) {
@@ -49,10 +50,10 @@ movementsRouter.post("/", async (req: Request, res: Response) => {
 movementsRouter.delete("/", async (req: Request, res: Response) => {
     try {
         const result = await collections.movements.deleteMany({})
-
         
         if(result){
-            res.status(200).send(`Successfully dropped collection`)
+            res.status(200).send(`Successfully resetted collection`)
+            console.log(`Successfully resetted collection`)
             service.boardReset()
         } else res.status(200).send('Failed to create new movement')
     } catch (error) {
