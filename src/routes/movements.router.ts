@@ -1,63 +1,71 @@
-import express, { Request, Response } from "express";
-import { ObjectId } from "mongodb";
-import { collections } from "../services/database.service";
-import Movement from "../models/movement";
+import express, { Request, Response } from "express"
+import { ObjectId } from "mongodb"
+import { collections } from "../services/database.service"
+import Movement from "../models/movement"
 import * as service from "../services/event.service"
 
-export const movementsRouter = express.Router();
+export const movementsRouter = express.Router()
 
-movementsRouter.use(express.json());
+movementsRouter.use(express.json())
 
 movementsRouter.get("/", async (_req: Request, res: Response) => {
     try {
-        const movements = (await collections.movements?.find({}).toArray()) as Movement[];
-        res.status(200).send(movements);
+        const movements = (await collections.movements
+            ?.find({})
+            .toArray()) as Movement[]
+        res.status(200).send(movements)
     } catch (error) {
-        res.status(500).send(error);
+        res.status(500).send(error)
     }
-});
+})
 
 movementsRouter.get("/:id", async (req: Request, res: Response) => {
-    const id = req?.params?.id;
+    const id = req?.params?.id
     try {
-        const query = { _id: new ObjectId(id) };
-        const fruit = (await collections.movements?.findOne(query)) as Movement;
+        const query = { _id: new ObjectId(id) }
+        const fruit = (await collections.movements?.findOne(query)) as Movement
 
         if (fruit) {
-            res.status(200).send(fruit);
+            res.status(200).send(fruit)
         }
     } catch (error) {
-        res.status(404).send(`Unable to find matching document with id: ${req.params.id}`);
+        res.status(404).send(
+            `Unable to find matching document with id: ${req.params.id}`,
+        )
     }
-});
+})
 
 movementsRouter.post("/", async (req: Request, res: Response) => {
     try {
         const newMovement = req.body as Movement
         const result = await collections.movements?.insertOne(newMovement)
 
-        if(result){
-            res.status(201).send(`Successfully created new movement from:${newMovement.from} to: ${newMovement.to}`)
-            console.log(`Successfully created new movement from:${newMovement.from} to: ${newMovement.to}`)
+        if (result) {
+            res.status(201).send(
+                `Successfully created new movement from:${newMovement.from} to: ${newMovement.to}`,
+            )
+            console.log(
+                `Successfully created new movement from:${newMovement.from} to: ${newMovement.to}`,
+            )
             service.newMovement(newMovement)
-        } else res.status(200).send('Failed to create new movement')
-   } catch (error) {
+        } else res.status(200).send("Failed to create new movement")
+    } catch (error) {
         console.error(error)
-        res.status(400).send(error);
+        res.status(400).send(error)
     }
-});
+})
 
 movementsRouter.delete("/", async (req: Request, res: Response) => {
     try {
         const result = await collections.movements.deleteMany({})
-        
-        if(result){
+
+        if (result) {
             res.status(200).send(`Successfully resetted collection`)
             console.log(`Successfully resetted collection`)
             service.boardReset()
-        } else res.status(200).send('Failed to create new movement')
+        } else res.status(200).send("Failed to create new movement")
     } catch (error) {
         console.error(error)
-        res.status(400).send(error);
+        res.status(400).send(error)
     }
-});
+})

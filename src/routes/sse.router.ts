@@ -1,29 +1,25 @@
-
-import express, { Request, Response } from "express";
-import * as service from '../services/event.service'
-import Movement from '../models/movement'
+import express, { Request, Response } from "express"
+import * as service from "../services/event.service"
+import Movement from "../models/movement"
 
 export const sseRouter = express.Router()
 
 var globalCount = 0
-var innerCount = 0
 
-var movements: Movement[]= []
-
+var movements: Movement[] = []
 
 sseRouter.use(express.json())
 
 service.onMovementAdded((movement: Movement) => {
-    console.log('onMovementAdded')
+    console.log("onMovementAdded")
     movements.push(movement)
     globalCount++
 })
 
 service.onBoardReset(() => {
-    console.log('onBoardReset')
-    movements = [] 
+    console.log("onBoardReset")
+    movements = []
     globalCount = 0
-    innerCount = 0
 })
 
 sseRouter.get("/", async (req: Request, res: Response) => {
@@ -32,10 +28,6 @@ sseRouter.get("/", async (req: Request, res: Response) => {
     res.set("Cache-Control", "no-cache")
     res.set("Access-Control-Allow-Origin", "*")
     setInterval(() => {
-        if(globalCount > innerCount) {
-            console.log(`globalCount ${globalCount} -> innerCount ${innerCount}`)
-            res.status(200).write(`data: ${JSON.stringify(movements)}\n\n`)
-            innerCount = globalCount
-        }
-    }, 100)
-});
+        res.status(200).write(`data: ${movements.length}\n\n`)
+    }, 1500)
+})

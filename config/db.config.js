@@ -1,4 +1,4 @@
-"use strict";
+"use strict"
 module.exports = {
     url: "mongodb://localhost:27017/chess_db",
-};
+}

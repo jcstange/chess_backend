@@ -1,5 +1,10 @@
-import { ObjectId } from "mongodb";
+import { ObjectId } from "mongodb"
 
 export default class movement {
-    constructor(public from: string, public to: string, public id?: ObjectId) {}
+    constructor(
+        public type: string,
+        public from: string,
+        public to: string,
+        public id?: ObjectId,
+    ) {}
 }
