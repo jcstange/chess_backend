@@ -29,5 +29,5 @@ sseRouter.get("/", async (req: Request, res: Response) => {
     res.set("Access-Control-Allow-Origin", "*")
     setInterval(() => {
         res.status(200).write(`data: ${movements.length}\n\n`)
-    }, 1500)
+    }, 500)
 })
