@@ -12,7 +12,7 @@ connecToDatabase()
         app.use(
             cors({
                 origin: "http://localhost:3000",
-                credentials: true, //access-control-allow-credentials:true
+                credentials: false, //access-control-allow-credentials:true
             }),
         )
         app.use("/movements", movementsRouter)
