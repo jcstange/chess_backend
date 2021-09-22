@@ -11,7 +11,7 @@ connecToDatabase()
     .then(() => {
         app.use(
             cors({
-                origin: "https://jcstange.github.io/chess/index.html",
+                origin: "https://jcstange.github.io",
                 credentials: true, //access-control-allow-credentials:true
             }),
         )
