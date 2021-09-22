@@ -5,14 +5,14 @@ import { movementsRouter } from "./routes/movements.router"
 import { sseRouter } from "./routes/sse.router"
 
 const app = express()
-const port = 8080
+const port = process.env.PORT || 8080
 
 connecToDatabase()
     .then(() => {
         app.use(
             cors({
                 origin: "http://localhost:3000",
-                credentials: false, //access-control-allow-credentials:true
+                credentials: true, //access-control-allow-credentials:true
             }),
         )
         app.use("/movements", movementsRouter)
